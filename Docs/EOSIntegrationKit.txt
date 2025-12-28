@@ -1,0 +1,16 @@
+Download the plugin as zip from GitHub
+https://github.com/betidestudio/EOSIntegrationKit
+
+Create an organization and product under Epic Games Developer Portal
+https://dev.epicgames.com/portal/en/
+
+Download and configure EOS SDK from Epic Games Developer Portal
+
+Extract both .zip files, and copy the contents of the SDK folder from EOS-SDK-47370208-Release-v1.18.1.2
+Copy the contents into EOSIntegrationKit-main\Source\ThirdParty\EIKSDK
+
+Updated EIK_Subsystem.cpp by updating the function void UEIK_Subsystem::OnJoinSessionCompleted()
+C:\Users\Draicor\Documents\Unreal Projects\Spellstrike\Plugins\EOSIntegrationKit\Source\OnlineSubsystemEIK\Subsystem
+
+Follow the video tutorial to setup everything in the developer portal
+https://www.youtube.com/watch?v=WZa3zvVcaOM
