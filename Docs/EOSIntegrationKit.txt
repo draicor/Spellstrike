@@ -14,3 +14,6 @@ C:\Users\Draicor\Documents\Unreal Projects\Spellstrike\Plugins\EOSIntegrationKit
 
 Follow the video tutorial to setup everything in the developer portal
 https://www.youtube.com/watch?v=WZa3zvVcaOM
+
+Extra Plugin configuration setup (Making join session possible)
+https://eik.betide.studio/getting-started/configuration

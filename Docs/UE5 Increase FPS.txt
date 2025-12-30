@@ -1,0 +1,45 @@
+Editor Preferences:
+Show Frame Rate and Memory -> Enable (was disabled)
+
+Project settings:
+Shadow Map Method -> Shadow Maps (was Virtual Shadow Maps)
+Fixed Frame Rate -> Enable & set to 30 (was disabled)
+Dynamic Global Illumination Method -> None (was lumen)
+Reflection Method -> Screen Space (was lumen)
+Ray Traced Shadows -> Disabled
+Support Hardware Ray Tracing -> Disabled
+Platforms -> Windows:
+Default RHI -> DirectX11 (was DirectX12)
+Anti-Aliasing Method -> Subpixel Morphological Anti-Aliasing (SMAA)
+
+Config/DefaultEngine.ini:
+r.TextureStreaming=False (was true)
+r.VirtualTextures=False (was true)
+r.DynamicGlobalIlluminationMethod=0 (was 1)
+r.ReflectionMethod=2 (was 1)
+r.Lumen.Reflections.HardwareRayTracing.Translucent.Refraction.EnableForProject=False (was true)
+r.Shadow.Virtual.Enable=0 (was 1)
+r.RayTracing=False (was True)
+r.PathTracing=False (was True)
+r.Nanine.ProjectEnabled=False (was True)
+r.AllowStaticLighting=True (was False)
+r.ForwardShading=True (was False)
+r.DefaultFeature.Bloom=False (was True)
+r.DefaultFeature.AmbientOcclusion=False (was True)
+r.DefaultFeature.AmbientOcclusionStaticFraction=False (was True)
+r.DBuffer=False (was True)
+r.SupportSkyAtmosphere=False (was True)
+r.SupportLocalFogVolumes=False (was True)
+r.HeterogeneousVolumes=False (was True)
+r.SupportPointLightWholeSceneShadows=False (was True)
+r.Substrate=False (was True)
+r.Refraction.Blur=False (was True)
+r.Mobile.EnableStaticAndCSMShadowReceivers=False (was True)
+r.Mobile.EnableMovableLightCSMShaderCulling=False (was True)
+r.Mobile.Forward.EnableLocalLights=0 (was 1)
+r.Mobile.AllowDistanceFieldShadows=False (was True)
+DefaultGraphicsRHI=DefaultGraphicsRHI_DX11
+-D3D12TargetedShaderFormats=PCD3D_SM5
++D3D12TargetedShaderFormats=PCD3D_SM6
+-D3D11TargetedShaderFormats=PCD3D_SM5
+bUseFixedFrameRate=True (was False)

@@ -1,0 +1,17 @@
+GameMode exists only on the server, authoritative rule set for game.
+
+GameState exists on the server and is replicated to all clients. Contains replicated game data everyone should know.
+
+PlayerState exists on the server and is replicated to all clients.
+Contains replicated data about a specific player.
+
+PlayerController exists on the server and on each player's machine. Clients do NOT have references to other client's PlayerControllers.
+
+Setting Auto Possess Player to Player 0 is correct because each client's local player is always index 0. The server will handle remapping these indices.
+Each client has their own local Player 0
+Server has Player 0 (host), Player 1 (first client), Player 2 (second client), etc.
+Client 1 sees: Local Player = Player 0
+Client 2 sees: Local Player = Player 0
+Server sees: Host = Player 0, Client 1 = Player 1, Client 2 = Player 2
+
+Never use ServerTravel or ?listen on client, these are for the Server only.
