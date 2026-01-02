@@ -1051,7 +1051,6 @@ void UEIK_Subsystem::OnFindSessionCompleted(bool bWasSuccess) const
 	}
 }
 
-
 void UEIK_Subsystem::OnJoinSessionCompleted(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
 	bool bSuccess = false;
@@ -1065,27 +1064,32 @@ void UEIK_Subsystem::OnJoinSessionCompleted(FName SessionName, EOnJoinSessionCom
 				if (const IOnlineSessionPtr SessionPtrRef = SubsystemRef->GetSessionInterface())
 				{
 					FString JoinAddress;
-					SessionPtrRef->GetResolvedConnectString(SessionName, JoinAddress);
 
-					if (Local_bIsDedicatedServerSession)
+					// Check if we successfully resolved the connection string
+					if (SessionPtrRef->GetResolvedConnectString(SessionName, JoinAddress) && !JoinAddress.IsEmpty())
 					{
-						TArray<FString> IpPortArray;
-						JoinAddress.ParseIntoArray(IpPortArray, TEXT(":"), true);
-
-						if (IpPortArray.Num() > 0)
+						// Only attempt to fix the port for dedicated servers (common issue: port resolves to 0)
+						if (Local_bIsDedicatedServerSession)
 						{
-							const FString IpAddress = IpPortArray[0];
-							if (LocalPortInfo.IsEmpty())
+							// Find the last colon to properly handle both IPv4 and IPv6 addresses
+							int32 LastColonIndex = INDEX_NONE;
+							if (JoinAddress.FindLastChar(TEXT(':'), LastColonIndex))
 							{
-								LocalPortInfo = "7777";
-							}
-							const FString NewCustomIP = IpAddress + ":" + LocalPortInfo;
-							JoinAddress = NewCustomIP;
-						}
-					}
+								FString LeftPart = JoinAddress.Left(LastColonIndex);
+								FString PortPart = JoinAddress.Mid(LastColonIndex + 1);
 
-					if (!JoinAddress.IsEmpty())
-					{
+								// If the port is empty or "0", override it with our custom port (default: 7777)
+								if (PortPart.IsEmpty() || PortPart == TEXT("0"))
+								{
+									FString PortToUse = LocalPortInfo.IsEmpty() ? TEXT("7777") : LocalPortInfo;
+									JoinAddress = LeftPart + TEXT(":") + PortToUse;
+								}
+								// Otherwise, the port is already valid – leave it unchanged
+							}
+							// If there's no colon at all (e.g. Steam/EOS connect strings), do nothing – it's not an IP:Port format
+						}
+
+						// Travel to the server using the (possibly corrected) address
 						PlayerControllerRef->ClientTravel(JoinAddress, ETravelType::TRAVEL_Absolute);
 						bSuccess = true;
 					}
@@ -1095,9 +1099,9 @@ void UEIK_Subsystem::OnJoinSessionCompleted(FName SessionName, EOnJoinSessionCom
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Join Session Error with Reason of %d"), Result);
+		UE_LOG(LogTemp, Error, TEXT("Join Session failed with result: %d"), (int32)Result);
 	}
-
+	// Fire the Blueprint callback only once, with the correct success/failure result
 	JoinSession_CallbackBP.ExecuteIfBound(bSuccess);
 }
 
